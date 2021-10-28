@@ -24,10 +24,15 @@ public class Vector2dTest {
         // precedes
         Assertions.assertTrue(v1opposite.precedes(v1));
         Assertions.assertFalse(v2.precedes(v1));
+        Assertions.assertTrue(v1.precedes(v1));
+        Assertions.assertFalse(v1.precedes(v1opposite));
+
 
         // follows
         Assertions.assertTrue(v1.follows(v1opposite));
         Assertions.assertFalse(v1.follows(v2));
+        Assertions.assertTrue(v1.follows(v1));
+        Assertions.assertFalse(v1opposite.follows(v1));
 
         // upperRight
         Assertions.assertEquals(v1, v1.upperRight(v1opposite));
