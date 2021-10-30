@@ -5,6 +5,8 @@ import java.util.Objects;
 public class Animal {
     private MapDirection orientation;
     private Vector2d position;
+    private final Vector2d downLeft = new Vector2d(0, 0);
+    private final Vector2d upRight = new Vector2d(4, 4);
 
     public Animal() {
         this.orientation = MapDirection.NORTH;
@@ -23,8 +25,6 @@ public class Animal {
         if (direction == null) {
             return;
         }
-        Vector2d downLeft = new Vector2d(0, 0);
-        Vector2d upRight = new Vector2d(4, 4);
         Vector2d newPosition;
         switch (direction) {
             case RIGHT:
@@ -33,17 +33,12 @@ public class Animal {
             case LEFT:
                 orientation = orientation.previous();
                 break;
-            case FORWARD:
-                newPosition = position.add(Objects.requireNonNull(orientation.toUnitVector()));
-                if (newPosition != null && newPosition.precedes(upRight) && newPosition.follows(downLeft)) {
-                    position = newPosition;
-                }
-                break;
             case BACKWARD:
                 orientation = Objects.requireNonNull(orientation.next()).next();
+            case FORWARD:
                 newPosition = position.add(Objects.requireNonNull(
                         Objects.requireNonNull(orientation).toUnitVector()));
-                if (newPosition != null && newPosition.precedes(upRight) && newPosition.follows(downLeft)) {
+                if (newPosition.precedes(upRight) && newPosition.follows(downLeft)) {
                     position = newPosition;
                 }
                 break;

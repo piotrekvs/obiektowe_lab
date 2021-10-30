@@ -1,31 +1,33 @@
 package agh.ics.oop;
 
+import java.util.Arrays;
+
 public class OptionsParser {
     public MoveDirection[] parse(String[] inputDirs) {
         MoveDirection[] directions = new MoveDirection[inputDirs.length];
-
-        for (int i = 0; i < inputDirs.length; i++) {
-            switch (inputDirs[i]) {
+        int j = 0;
+        for (String inputDir : inputDirs) {
+            switch (inputDir) {
                 case "f":
                 case "forward":
-                    directions[i] = MoveDirection.FORWARD;
+                    directions[j++] = MoveDirection.FORWARD;
                     break;
                 case "b":
                 case "backward":
-                    directions[i] = MoveDirection.BACKWARD;
+                    directions[j++] = MoveDirection.BACKWARD;
                     break;
                 case "l":
                 case "left":
-                    directions[i] = MoveDirection.LEFT;
+                    directions[j++] = MoveDirection.LEFT;
                     break;
                 case "r":
                 case "right":
-                    directions[i] = MoveDirection.RIGHT;
+                    directions[j++] = MoveDirection.RIGHT;
                     break;
                 default:
                     break;
             }
         }
-        return directions;
+        return Arrays.copyOfRange(directions, 0, j);
     }
 }
