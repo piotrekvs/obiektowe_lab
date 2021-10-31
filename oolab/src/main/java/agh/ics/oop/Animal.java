@@ -1,31 +1,25 @@
 package agh.ics.oop;
 
-import java.util.Objects;
 
 public class Animal {
-    private MapDirection orientation;
+    private final IWorldMap map;
+    private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position;
-    private final Vector2d downLeft = new Vector2d(0, 0);
-    private final Vector2d upRight = new Vector2d(4, 4);
 
-    public Animal() {
-        this.orientation = MapDirection.NORTH;
-        this.position = new Vector2d(2, 2);
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        this.map = map;
+        this.position = initialPosition;
     }
 
     @Override
     public String toString() {
-        return "Animal{" +
-                "orientation=" + orientation +
-                ", position=" + position.toString() +
-                '}';
+        String[] names = new String[]{
+                "N", "E", "S", "W"
+        };
+        return names[orientation.ordinal()];
     }
 
     public void move(MoveDirection direction) {
-        if (direction == null) {
-            return;
-        }
-        Vector2d newPosition;
         switch (direction) {
             case RIGHT:
                 orientation = orientation.next();
@@ -34,12 +28,10 @@ public class Animal {
                 orientation = orientation.previous();
                 break;
             case BACKWARD:
-                orientation = Objects.requireNonNull(orientation.next()).next();
+                orientation = orientation.next().next();
             case FORWARD:
-                newPosition = position.add(Objects.requireNonNull(
-                        Objects.requireNonNull(orientation).toUnitVector()));
-                if (newPosition.precedes(upRight) && newPosition.follows(downLeft)) {
-                    position = newPosition;
+                if (map.canMoveTo(position.add(orientation.toUnitVector()))){
+                    position = position.add(orientation.toUnitVector());
                 }
                 break;
         }

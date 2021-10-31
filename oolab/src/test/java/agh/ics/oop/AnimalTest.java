@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 public class AnimalTest {
     @Test
     void moveAndOrientationAssertion() {
-        Animal animal = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal animal = new Animal(map, new Vector2d(2, 2));
         animal.move(MoveDirection.RIGHT);
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.FORWARD);
@@ -16,7 +17,8 @@ public class AnimalTest {
     }
     @Test
     void boundariesAssertion(){
-        Animal animal = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal animal = new Animal(map, new Vector2d(2, 2));
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.FORWARD);
@@ -29,7 +31,8 @@ public class AnimalTest {
 
     @Test
     void parserAndInputAssertion() {
-        Animal animal = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal animal = new Animal(map, new Vector2d(2, 2));
         String[] inputDirs = {"f", "left", "forward", "x", "l", "f", "f"};
         OptionsParser parser = new OptionsParser();
         MoveDirection[] parsedDirections = parser.parse(inputDirs);
