@@ -12,7 +12,6 @@ public class Animal implements IMapElement{
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
-        addObserver((IPositionChangeObserver) map);
         this.position = initialPosition;
     }
 
@@ -25,6 +24,7 @@ public class Animal implements IMapElement{
     }
 
     public void move(MoveDirection direction) {
+        MapDirection moveOrientation = orientation;
         switch (direction) {
             case RIGHT:
                 orientation = orientation.next();
@@ -33,12 +33,13 @@ public class Animal implements IMapElement{
                 orientation = orientation.previous();
                 break;
             case BACKWARD:
-                orientation = orientation.next().next();
+                moveOrientation = orientation.next().next();
             case FORWARD:
-                Vector2d newPosition = position.add(orientation.toUnitVector());
+                Vector2d newPosition = position.add(moveOrientation.toUnitVector());
+                Vector2d oldPosition = position;
                 if (map.canMoveTo(newPosition)) {
-                    positionChanged(position, newPosition);
                     position = newPosition;
+                    positionChanged(oldPosition, newPosition);
                 }
                 break;
         }
@@ -61,7 +62,7 @@ public class Animal implements IMapElement{
         observers.remove(observer);
     }
 
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(oldPosition, newPosition);
         }

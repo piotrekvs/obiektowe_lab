@@ -14,7 +14,7 @@ public class SimulationEngineTest {
         engine.run();
         Assertions.assertEquals(MapDirection.EAST,
                 ((Animal) map.objectAt(new Vector2d(2,3))).getOrientation());
-        Assertions.assertEquals(MapDirection.EAST,
+        Assertions.assertEquals(MapDirection.WEST,
                 ((Animal) map.objectAt(new Vector2d(3,3))).getOrientation());
     }
 }
