@@ -21,6 +21,7 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void run() {
+        System.out.println(map);
         int i = 0;
         for (MoveDirection direction : directions) {
             Animal animal = animals.get(i++);
@@ -28,9 +29,9 @@ public class SimulationEngine implements IEngine {
             if (i >= animals.size()) {
                 i = 0;
             }
-            System.out.println("idx" + i + "; " + animal.getPosition().toString() + "; " +
-                    animal.getOrientation().toString());
-            System.out.println(map.toString());
+            System.out.println("idx" + i + "; " + animal.getPosition() + "; " +
+                    animal.getOrientation());
+            System.out.println(map);
         }
     }
 }
