@@ -41,12 +41,12 @@ public class GrassField extends AbstractWorldMap {
     @Override
     public boolean canMoveTo(Vector2d position) {
         return position.follows(lowerLeft) &&
-                position.precedes(upperRight) &&
+                position.precedes(upperRight) &&    // GrassField miało być nieograniczone
                 (super.objectAt(position) == null);
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {
+    public boolean isOccupied(Vector2d position) {  // ta metoda jest taka sama jak ta odziedziczona
         return objectAt(position) != null;
     }
 
@@ -61,7 +61,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public String toString() {
+    public String toString() {  // toString nie powinno tu być - o to chodzi we wzorcu template method
         Vector2d upRight = new Vector2d(0, 0);
         for (Grass grass : grassFields) {
             upRight = grass.getPosition().upperRight(upRight);

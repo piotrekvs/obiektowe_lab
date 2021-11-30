@@ -13,7 +13,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        String[] names = new String[]{
+        String[] names = new String[]{  // można by to zapisać jako pole private static final
                 "N", "E", "S", "W"
         };
         return names[orientation.ordinal()];
@@ -28,10 +28,10 @@ public class Animal {
                 orientation = orientation.previous();
                 break;
             case BACKWARD:
-                orientation = orientation.next().next();
+                orientation = orientation.next().next();    // zwierzę się nie powinno odwracać, tylko przemieścić
             case FORWARD:
                 if (map.canMoveTo(position.add(orientation.toUnitVector()))){
-                    position = position.add(orientation.toUnitVector());
+                    position = position.add(orientation.toUnitVector());    // dwa razy dodawanie wektora
                 }
                 break;
         }

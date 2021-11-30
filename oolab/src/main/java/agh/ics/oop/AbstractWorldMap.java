@@ -5,7 +5,7 @@ import java.util.List;
 
 abstract class AbstractWorldMap implements IWorldMap {
     protected final Vector2d upperRight;
-    protected final Vector2d lowerLeft = new Vector2d(0, 0);
+    protected final Vector2d lowerLeft = new Vector2d(0, 0);    // czy to jest część wspólna wszystkich map?
     protected List<Animal> animals = new ArrayList<>();
     protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -17,7 +17,7 @@ abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.follows(lowerLeft) && position.precedes(upperRight) && !isOccupied(position);
+        return position.follows(lowerLeft) && position.precedes(upperRight) && !isOccupied(position);/  / czy to jest część wspólna wszystkich map?
     }
 
     @Override
@@ -45,6 +45,6 @@ abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public String toString() {
-        return mapVisualizer.draw(lowerLeft, upperRight);
+        return mapVisualizer.draw(lowerLeft, upperRight);   // skąd pewność, że te wektory są aktualne?
     }
 }
