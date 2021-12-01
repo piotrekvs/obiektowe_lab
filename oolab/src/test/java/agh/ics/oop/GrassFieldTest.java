@@ -5,6 +5,16 @@ import org.junit.jupiter.api.Test;
 
 public class GrassFieldTest {
     @Test
+    void placeAssertionTest() {
+        IWorldMap map = new RectangularMap(5, 5);
+        map.place(new Animal(map, new Vector2d(2, 2)));
+        Assertions.assertTrue(map.place(new Animal(map, new Vector2d(2, 3))));
+        Assertions.assertDoesNotThrow(() -> map.place(new Animal(map, new Vector2d(4, 2))));
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,
+                () -> map.place(new Animal(map, new Vector2d(2, 2))));
+    }
+
+    @Test
     void isOccupiedAssertionTest() {
         IWorldMap map  = new GrassField(5);
         map.place(new Animal(map, new Vector2d(2, 2)));

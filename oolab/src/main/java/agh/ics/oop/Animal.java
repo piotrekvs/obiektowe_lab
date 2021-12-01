@@ -8,7 +8,7 @@ public class Animal implements IMapElement{
     private final IWorldMap map;
     private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position;
-    private List<IPositionChangeObserver> observers = new ArrayList<>();
+    private final List<IPositionChangeObserver> observers = new ArrayList<>();
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
@@ -17,7 +17,7 @@ public class Animal implements IMapElement{
 
     @Override
     public String toString() {
-        String[] names = new String[]{
+        final String[] names = new String[]{
                 "N", "E", "S", "W"
         };
         return names[orientation.ordinal()];
@@ -39,7 +39,7 @@ public class Animal implements IMapElement{
                 Vector2d oldPosition = position;
                 if (map.canMoveTo(newPosition)) {
                     position = newPosition;
-                    positionChanged(oldPosition, newPosition);
+                    positionChangedNotify(oldPosition, newPosition);
                 }
                 break;
         }
@@ -62,7 +62,7 @@ public class Animal implements IMapElement{
         observers.remove(observer);
     }
 
-    private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+    private void positionChangedNotify(Vector2d oldPosition, Vector2d newPosition) {
         for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(oldPosition, newPosition);
         }

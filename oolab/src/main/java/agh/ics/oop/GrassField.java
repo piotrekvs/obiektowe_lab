@@ -1,14 +1,20 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class GrassField extends AbstractWorldMap {
+public class GrassField extends AbstractWorldMap implements IPositionChangeObserver {
     private static final Random rand = new Random();
+    private final MapBoundary mapBoundary = new MapBoundary(this);
+    private final List<IPositionChangeObserver> observers = new ArrayList<>();
     private final int furthestGrassXY;
 
     public GrassField(int numOfGrassFields) {
-        super(new Vector2d(Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 1));
+        super(new Vector2d(Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 1),
+                new Vector2d(Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 1));
         furthestGrassXY = (int) Math.sqrt(numOfGrassFields * 10);
+        addObserver(mapBoundary);
         placeGrass(numOfGrassFields);
     }
 
@@ -17,6 +23,7 @@ public class GrassField extends AbstractWorldMap {
             Vector2d position = new Vector2d(rand.nextInt(furthestGrassXY), rand.nextInt(furthestGrassXY));
             if (!isOccupied(position)) {
                 mapElementsHashMap.put(position, new Grass(position));
+                mapBoundary.addElement(mapElementsHashMap.get(position));
                 i++;
             }
         }
@@ -31,7 +38,9 @@ public class GrassField extends AbstractWorldMap {
     @Override
     public boolean place(Animal animal) {
         eatGrass(animal.getPosition());
-        return super.place(animal);
+        super.place(animal);
+        mapBoundary.addElement(animal);
+        return true;
     }
 
     public void eatGrass(Vector2d position) {
@@ -44,21 +53,34 @@ public class GrassField extends AbstractWorldMap {
             newPosition = new Vector2d(rand.nextInt(furthestGrassXY), rand.nextInt(furthestGrassXY));
         } while (isOccupied(newPosition));
         mapElementsHashMap.put(newPosition, new Grass(newPosition));
+        positionChangedNotify(position, newPosition);
     }
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         eatGrass(newPosition);
         super.positionChanged(oldPosition, newPosition);
+        positionChangedNotify(oldPosition, newPosition);
+    }
+
+    public void addObserver(IPositionChangeObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(IPositionChangeObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void positionChangedNotify(Vector2d oldPosition, Vector2d newPosition) {
+        for (IPositionChangeObserver observer : observers) {
+            observer.positionChanged(oldPosition, newPosition);
+        }
     }
 
     @Override
     public String toString() {
-        Vector2d upRight = new Vector2d(0, 0);
-        for (Vector2d key : mapElementsHashMap.keySet()) {
-            upRight = key.upperRight(upRight);
-        }
-        upRight = upRight.add(new Vector2d(1, 1));
-        return super.mapVisualizer.draw(lowerLeft, upRight);
+        lowerLeftDraw = mapBoundary.getLowerLeft();
+        upperRightDraw = mapBoundary.getUpperRight();
+        return super.toString();
     }
 }
