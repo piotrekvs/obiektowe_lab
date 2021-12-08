@@ -1,39 +1,37 @@
 package agh.ics.oop;
 
 import java.util.Comparator;
-import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class MapBoundary implements IPositionChangeObserver {
-    private final AbstractWorldMap map;
-    private final TreeMap<Vector2d, IMapElement> orderedElementsX =
-            new TreeMap<>(new CompareX());
-    private final TreeMap<Vector2d, IMapElement> orderedElementsY =
-            new TreeMap<>(new CompareY());
+    private final GrassField map;
+    private final TreeSet<Vector2d> orderedElementsX = new TreeSet<>(new CompareX());
+    private final TreeSet<Vector2d> orderedElementsY = new TreeSet<>(new CompareY());
 
-    public MapBoundary(AbstractWorldMap map) {
+    public MapBoundary(GrassField map) {
         this.map = map;
+        this.map.addObserver(this);
     }
 
-    public void addElement(IMapElement mapElement) {
-        orderedElementsX.put(mapElement.getPosition(), mapElement);
-        orderedElementsY.put(mapElement.getPosition(), mapElement);
+    public void addElement(Vector2d position) {
+        orderedElementsX.add(position);
+        orderedElementsY.add(position);
     }
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        IMapElement mapElement = map.objectAt(oldPosition);
         orderedElementsX.remove(oldPosition);
         orderedElementsY.remove(oldPosition);
-        orderedElementsX.put(newPosition, mapElement);
-        orderedElementsY.put(newPosition, mapElement);
+        orderedElementsX.add(newPosition);
+        orderedElementsY.add(newPosition);
     }
 
     public Vector2d getLowerLeft() {
-        return new Vector2d(orderedElementsX.firstKey().x, orderedElementsY.firstKey().y);
+        return new Vector2d(orderedElementsX.first().x, orderedElementsY.first().y);
     }
 
     public Vector2d getUpperRight() {
-        return new Vector2d(orderedElementsX.lastKey().x, orderedElementsY.lastKey().y);
+        return new Vector2d(orderedElementsX.last().x, orderedElementsY.last().y);
     }
 }
 

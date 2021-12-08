@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class GrassField extends AbstractWorldMap implements IPositionChangeObserver {
     private static final Random rand = new Random();
-    private final MapBoundary mapBoundary = new MapBoundary(this);
+    private final MapBoundary mapBoundary;
     private final List<IPositionChangeObserver> observers = new ArrayList<>();
     private final int furthestGrassXY;
 
@@ -14,7 +14,7 @@ public class GrassField extends AbstractWorldMap implements IPositionChangeObser
         super(new Vector2d(Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 1),
                 new Vector2d(Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 1));
         furthestGrassXY = (int) Math.sqrt(numOfGrassFields * 10);
-        addObserver(mapBoundary);
+        this.mapBoundary = new MapBoundary(this);
         placeGrass(numOfGrassFields);
     }
 
@@ -23,7 +23,7 @@ public class GrassField extends AbstractWorldMap implements IPositionChangeObser
             Vector2d position = new Vector2d(rand.nextInt(furthestGrassXY), rand.nextInt(furthestGrassXY));
             if (!isOccupied(position)) {
                 mapElementsHashMap.put(position, new Grass(position));
-                mapBoundary.addElement(mapElementsHashMap.get(position));
+                mapBoundary.addElement(position);
                 i++;
             }
         }
@@ -39,7 +39,7 @@ public class GrassField extends AbstractWorldMap implements IPositionChangeObser
     public boolean place(Animal animal) {
         eatGrass(animal.getPosition());
         super.place(animal);
-        mapBoundary.addElement(animal);
+        mapBoundary.addElement(animal.getPosition());
         return true;
     }
 
