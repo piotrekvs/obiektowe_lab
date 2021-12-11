@@ -16,6 +16,7 @@ public class MapBoundary implements IPositionChangeObserver {
     public void addElement(Vector2d position) {
         orderedElementsX.add(position);
         orderedElementsY.add(position);
+        map.setNewBoundaries();
     }
 
     @Override
@@ -24,6 +25,7 @@ public class MapBoundary implements IPositionChangeObserver {
         orderedElementsY.remove(oldPosition);
         orderedElementsX.add(newPosition);
         orderedElementsY.add(newPosition);
+        map.setNewBoundaries();
     }
 
     public Vector2d getLowerLeft() {

@@ -77,10 +77,8 @@ public class GrassField extends AbstractWorldMap implements IPositionChangeObser
         }
     }
 
-    @Override
-    public String toString() {
-        lowerLeftDraw = mapBoundary.getLowerLeft();
+    public void setNewBoundaries() {
         upperRightDraw = mapBoundary.getUpperRight();
-        return super.toString();
+        lowerLeftDraw = mapBoundary.getLowerLeft();
     }
 }
