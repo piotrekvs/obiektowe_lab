@@ -4,7 +4,7 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal implements IMapElement{
+public class Animal implements IMapElement {
     private final IWorldMap map;
     private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position;
@@ -52,6 +52,22 @@ public class Animal implements IMapElement{
     @Override
     public Vector2d getPosition() {
         return position;
+    }
+
+    @Override
+    public String getImage() {
+        switch (orientation) {
+            case NORTH:
+                return "up.png";
+            case EAST:
+                return "right.png";
+            case SOUTH:
+                return "down.png";
+            case WEST:
+                return "left.png";
+            default:
+                throw new IllegalArgumentException("Wrong orientation");
+        }
     }
 
     public void addObserver(IPositionChangeObserver observer) {

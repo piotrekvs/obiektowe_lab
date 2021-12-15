@@ -41,9 +41,8 @@ public class App extends Application {
                 Vector2d position = new Vector2d(x, y);
                 if (map.isOccupied(position)) {
                     IMapElement mapElement = map.objectAt(position);
-                    gridPane.add(new Label(mapElement.toString()), xj, yj, 1,1);
+                    gridPane.add(new GuiElementBox(mapElement).getBox(), xj, yj, 1,1);
                 }
-
             }
         }
         // Show scene

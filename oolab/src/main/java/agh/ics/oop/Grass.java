@@ -13,6 +13,11 @@ public class Grass implements IMapElement {
     }
 
     @Override
+    public String getImage() {
+        return "grass.png";
+    }
+
+    @Override
     public String toString() {
         return "*";
     }
