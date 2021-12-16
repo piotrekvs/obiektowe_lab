@@ -3,22 +3,25 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 
 public class App extends Application implements IPositionChangeObserver {
     private Stage primaryStage;
     private GridPane gridPane;
     private AbstractWorldMap map;
+    private HashMap<String, Image> imageHashMap = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) { //throws Exception {
@@ -26,6 +29,8 @@ public class App extends Application implements IPositionChangeObserver {
         this.primaryStage.setTitle("Animals project");
         this.gridPane = new GridPane();
         this.gridPane.setGridLinesVisible(true);
+        addImagesToImagesHashMap();
+
 
         // Map init
         this.map = new GrassField(5);
@@ -52,7 +57,6 @@ public class App extends Application implements IPositionChangeObserver {
         Scene scene = new Scene(fullView, 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
-        // Show scene
     }
 
     private void draw() {
@@ -77,7 +81,8 @@ public class App extends Application implements IPositionChangeObserver {
                 Vector2d position = new Vector2d(x, y);
                 if (map.isOccupied(position)) {
                     IMapElement mapElement = map.objectAt(position);
-                    gridPane.add(new GuiElementBox(mapElement).getBox(), xj, yj, 1,1);
+                    Image image = imageHashMap.get(mapElement.getImage());
+                    gridPane.add(new GuiElementBox(mapElement, image).getBox(), xj, yj, 1,1);
                 }
             }
         }
@@ -86,12 +91,24 @@ public class App extends Application implements IPositionChangeObserver {
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         Platform.runLater(() -> {
-            Node linie = gridPane.getChildren().get(0);
+            Node lines = gridPane.getChildren().get(0);
             gridPane.getChildren().clear();
-            gridPane.getChildren().add(linie);
+            gridPane.getChildren().add(lines);
             gridPane.getColumnConstraints().clear();
             gridPane.getRowConstraints().clear();
             draw();
         });
+    }
+
+    private void addImagesToImagesHashMap() {
+        try {
+            imageHashMap.put("up", new Image(new FileInputStream("src/main/resources/up.png")));
+            imageHashMap.put("right", new Image(new FileInputStream("src/main/resources/right.png")));
+            imageHashMap.put("down", new Image(new FileInputStream("src/main/resources/down.png")));
+            imageHashMap.put("left", new Image(new FileInputStream("src/main/resources/left.png")));
+            imageHashMap.put("grass", new Image(new FileInputStream("src/main/resources/grass.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

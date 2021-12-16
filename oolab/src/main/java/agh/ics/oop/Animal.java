@@ -61,13 +61,13 @@ public class Animal implements IMapElement {
     public String getImage() {
         switch (orientation) {
             case NORTH:
-                return "src/main/resources/up.png";
+                return "up";
             case EAST:
-                return "src/main/resources/right.png";
+                return "right";
             case SOUTH:
-                return "src/main/resources/down.png";
+                return "down";
             case WEST:
-                return "src/main/resources/left.png";
+                return "left";
             default:
                 throw new IllegalArgumentException("Wrong orientation");
         }
