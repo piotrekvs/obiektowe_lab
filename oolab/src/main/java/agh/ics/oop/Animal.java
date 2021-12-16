@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +29,11 @@ public class Animal implements IMapElement {
         switch (direction) {
             case RIGHT:
                 orientation = orientation.next();
+                positionChangedNotify(position, position);
                 break;
             case LEFT:
                 orientation = orientation.previous();
+                positionChangedNotify(position, position);
                 break;
             case BACKWARD:
                 moveOrientation = orientation.next().next();
@@ -58,13 +61,13 @@ public class Animal implements IMapElement {
     public String getImage() {
         switch (orientation) {
             case NORTH:
-                return "up.png";
+                return "src/main/resources/up.png";
             case EAST:
-                return "right.png";
+                return "src/main/resources/right.png";
             case SOUTH:
-                return "down.png";
+                return "src/main/resources/down.png";
             case WEST:
-                return "left.png";
+                return "src/main/resources/left.png";
             default:
                 throw new IllegalArgumentException("Wrong orientation");
         }

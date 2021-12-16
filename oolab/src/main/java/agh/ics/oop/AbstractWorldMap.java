@@ -1,6 +1,9 @@
 package agh.ics.oop;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected final Vector2d lowerLeft;
@@ -9,6 +12,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected Vector2d lowerLeftDraw = new Vector2d(0, 0);
     protected Vector2d upperRightDraw = new Vector2d(0, 0);
     protected HashMap<Vector2d, IMapElement> mapElementsHashMap = new HashMap<>();
+    private final List<IPositionChangeObserver> observers = new ArrayList<>();
 
     public AbstractWorldMap(Vector2d lowerLeft, Vector2d upperRight) {
         this.lowerLeft = lowerLeft;
@@ -45,6 +49,20 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         IMapElement mapElement = objectAt(oldPosition);
         mapElementsHashMap.remove(oldPosition);
         mapElementsHashMap.put(newPosition, mapElement);
+    }
+
+    public void addObserver(IPositionChangeObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(IPositionChangeObserver observer) {
+        observers.remove(observer);
+    }
+
+    protected void positionChangedNotify(Vector2d oldPosition, Vector2d newPosition) {
+        for (IPositionChangeObserver observer : observers) {
+            observer.positionChanged(oldPosition, newPosition);
+        }
     }
 
     @Override

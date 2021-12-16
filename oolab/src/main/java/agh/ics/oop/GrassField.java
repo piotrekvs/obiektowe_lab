@@ -63,20 +63,6 @@ public class GrassField extends AbstractWorldMap implements IPositionChangeObser
         positionChangedNotify(oldPosition, newPosition);
     }
 
-    public void addObserver(IPositionChangeObserver observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(IPositionChangeObserver observer) {
-        observers.remove(observer);
-    }
-
-    private void positionChangedNotify(Vector2d oldPosition, Vector2d newPosition) {
-        for (IPositionChangeObserver observer : observers) {
-            observer.positionChanged(oldPosition, newPosition);
-        }
-    }
-
     public void setNewBoundaries() {
         upperRightDraw = mapBoundary.getUpperRight();
         lowerLeftDraw = mapBoundary.getLowerLeft();
