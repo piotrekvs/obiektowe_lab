@@ -10,7 +10,7 @@ public class SimulationEngineTest {
         MoveDirection[] directions = new OptionsParser().parse(inputDirs);
         AbstractWorldMap map = new RectangularMap(10, 5);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
+        IEngine engine = new SimulationEngine(map, positions);
         engine.run();
         Assertions.assertEquals(MapDirection.EAST,
                 ((Animal) map.objectAt(new Vector2d(2,3))).getOrientation());

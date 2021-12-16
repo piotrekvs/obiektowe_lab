@@ -3,12 +3,15 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 
@@ -22,21 +25,31 @@ public class App extends Application implements IPositionChangeObserver {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Animals project");
         this.gridPane = new GridPane();
+        this.gridPane.setGridLinesVisible(true);
 
         // Map init
-        String[] inputDirs = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
-        MoveDirection[] directions = new OptionsParser().parse(inputDirs);
         this.map = new GrassField(5);
         map.addObserver(this);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        SimulationEngine engine = new SimulationEngine(directions, map, positions);
-        Thread engineThread = new Thread(engine);
-        engineThread.start();
+        SimulationEngine engine = new SimulationEngine(map, positions);
 
         // Draw first scene
-        this.gridPane.setGridLinesVisible(true);
+        VBox fullView = new VBox();
+        HBox formView = new HBox();
+        Button button = new Button();
+        TextField textField = new TextField();
+        button.setText("Start");
+        button.setOnAction(e -> {
+            textField.getText();
+            MoveDirection[] directions = new OptionsParser().parse(textField.getText().split(" "));
+            engine.setDirections(directions);
+            Thread engineThread = new Thread(engine);
+            engineThread.start();
+        });
+        formView.getChildren().addAll(textField, button);
+        fullView.getChildren().addAll(gridPane, formView);
         draw();
-        Scene scene = new Scene(gridPane, 400, 400);
+        Scene scene = new Scene(fullView, 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
         // Show scene

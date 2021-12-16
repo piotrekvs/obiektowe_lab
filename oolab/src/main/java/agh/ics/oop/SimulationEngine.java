@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationEngine implements IEngine, IPositionChangeObserver, Runnable {
-    private final MoveDirection[] directions;
+    private MoveDirection[] directions;
     private final AbstractWorldMap map;
     protected List<Animal> animals = new ArrayList<>();
     private final List<IPositionChangeObserver> observers = new ArrayList<>();
-    private final int moveDelay = 2000;
+    private final int moveDelay = 500;
 
-    public SimulationEngine(MoveDirection[] directions, AbstractWorldMap map, Vector2d[] positions) {
-        this.directions = directions;
+    public SimulationEngine(AbstractWorldMap map, Vector2d[] positions) {
         this.map = map;
         this.map.addObserver(this);
         for (Vector2d position : positions) {
@@ -61,5 +60,9 @@ public class SimulationEngine implements IEngine, IPositionChangeObserver, Runna
         for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(oldPosition, newPosition);
         }
+    }
+
+    public void setDirections(MoveDirection[] directions) {
+        this.directions = directions;
     }
 }
