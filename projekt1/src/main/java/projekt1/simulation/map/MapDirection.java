@@ -1,5 +1,9 @@
 package projekt1.simulation.map;
 
+import projekt1.Main;
+
+import java.util.Random;
+
 public enum MapDirection {
     N, NE, E, SE, S, SW, W, NW;
 
@@ -33,6 +37,10 @@ public enum MapDirection {
 
     public MapDirection previous() {
         return previousBy(1);
+    }
+
+    public MapDirection getRandomDirection() {
+        return MapDirection.values()[new Random().nextInt(8)];
     }
 
     public Vector2d toUnitVector() {

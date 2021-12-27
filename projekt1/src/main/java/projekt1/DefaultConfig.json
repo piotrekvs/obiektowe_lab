@@ -1,6 +1,6 @@
 {
-  "widthX": 30,
-  "heightY": 60,
+  "widthX": 25,
+  "heightY": 35,
   "jungleRatio": 3,
   "startNumOfAnimals": 50,
   "startEnergy": 100,

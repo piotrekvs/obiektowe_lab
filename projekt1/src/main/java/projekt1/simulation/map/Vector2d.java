@@ -3,8 +3,8 @@ package projekt1.simulation.map;
 import java.util.Objects;
 
 public class Vector2d {
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
 
     public Vector2d(int x, int y) {
         this.x = x;
@@ -22,6 +22,14 @@ public class Vector2d {
 
     public boolean follows(Vector2d other) {
         return other.x <= x && other.y <= y;
+    }
+
+    public boolean precedesIn1d(Vector2d other) {
+        return other.x >= x || other.y >= y;
+    }
+
+    public boolean followsIn1d(Vector2d other) {
+        return other.x <= x || other.y <= y;
     }
 
     public Vector2d upperRight(Vector2d other) {

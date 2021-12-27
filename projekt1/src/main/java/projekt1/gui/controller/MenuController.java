@@ -6,6 +6,8 @@ import javafx.scene.control.TextField;
 import projekt1.gui.UserInterface;
 import projekt1.utils.Config;
 
+import java.io.IOException;
+
 import static java.lang.Integer.parseInt;
 
 public class MenuController {
@@ -42,7 +44,7 @@ public class MenuController {
         plantEnergyInput.setText(Integer.toString(userInterface.getDefaultConfig().getPlantEnergy()));
     }
 
-    public void handleStartSimulationBtn() {
+    public void handleStartSimulationBtn() throws IOException {
         System.out.println("Clicked StartSimulationBtn.");
         try {
             userInterface.getConfig().setConfig(

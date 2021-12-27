@@ -9,7 +9,7 @@ import projekt1.utils.Config;
 
 import java.io.IOException;
 
-public class UserInterface {
+public class UserInterface implements IGui {
     private final Stage menuStage;
     private final Config defaultConfig;
     private static final Config config = new Config(0, 0, 0,
@@ -22,15 +22,18 @@ public class UserInterface {
 
     public void start() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/menu.fxml"));
-        loader.setControllerFactory(c -> new MenuController(this));
+        MenuController menuController = new MenuController(this);
+        loader.setController(menuController);
         Parent root = loader.load();
         Scene scene = new Scene(root);
         menuStage.setScene(scene);
         menuStage.show();
     }
 
-    public void startSimulation() {
-        System.out.println(config);
+    public void startSimulation() throws IOException {
+        // TODO: Block startSimulationBtn
+        SimulationInterface simulationInterface = new SimulationInterface(config);
+        simulationInterface.start();
     }
 
     public Config getDefaultConfig() {

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projekt1.gui.controller.MenuController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <Button layoutX="324.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleUseDefaultConfigBtn" text="Use Default Configuration" />
    <Label layoutX="32.0" layoutY="32.0" text="Simulation configuration:" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="32.0">
       <font>
