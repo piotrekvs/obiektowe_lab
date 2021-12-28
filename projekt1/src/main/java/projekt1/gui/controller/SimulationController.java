@@ -116,23 +116,25 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
         });
     }
 
-//    private void drawSelectedByGenome(GridPane gridPane, WorldMap map) {
-//        if (gridPane.getChildren().size() > netArrayLength) {
-//            gridPane.getChildren().remove(netArrayLength, gridPane.getChildren().size());
-//        }
-//
-//        Set<Vector2d> grassKeySet = map.getGrassHashMap().keySet();
-//        Set<Vector2d> animalKeySet = map.getAnimalHashMap().keySet();
-//
-//        animalKeySet.forEach(position -> {
-//            ArrayList<Animal> animals = map.getAnimalHashMap().get(position);
-//            int energyPercent = animals.get(animals.size() - 1).getEnergyPercent();
-//            ImageView iv = guiElementBox.getAnimalImg(energyPercent);
-//
-//            gridPane.add(iv, position.getX() + 1,
-//                    map.getUpperRight().getY() + 1 - position.getY(), 1, 1);
-//        });
-//    }
+    private void drawSelectedByGenome(GridPane gridPane, WorldMap map) {
+        if (gridPane.getChildren().size() > netArrayLength) {
+            gridPane.getChildren().remove(netArrayLength, gridPane.getChildren().size());
+        }
+
+        Set<Vector2d> grassKeySet = map.getGrassHashMap().keySet();
+        Set<Vector2d> animalKeySet = map.getAnimalHashMap().keySet();
+
+        animalKeySet.forEach(position -> {
+            ArrayList<Animal> animals = map.getAnimalHashMap().get(position);
+            for (Animal animal: animals) {
+                if (animal.getGenome().equals(map.getWorldStatistics().getDominantGenome())) {
+                    gridPane.add(guiElementBox.getAnimalNoEnergyImg(), position.getX() + 1,
+                            map.getUpperRight().getY() + 1 - position.getY(), 1, 1);
+                    break;
+                }
+            }
+        });
+    }
 
     private void drawNet(GridPane gridPane, WorldMap map) {
         gridPane.setGridLinesVisible(true);
@@ -201,6 +203,14 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
     public void unselectAnimalSim2Btn() {
         isAnimalSim2Selected = false;
         AnimalGenomeSim2.setText("");
+    }
+
+    public void drawSelectedByGenomeBtnSim1() {
+        drawSelectedByGenome(sim1GridPane, sim1Map);
+    }
+
+    public void drawSelectedByGenomeBtnSim2() {
+        drawSelectedByGenome(sim2GridPane, sim2Map);
     }
 
     @Override

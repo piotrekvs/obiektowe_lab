@@ -56,7 +56,7 @@
       <Label layoutX="245.0" layoutY="629.0" text="Genome:" />
       <Button layoutX="384.0" layoutY="591.0" mnemonicParsing="false" onAction="#unselectAnimalSim1Btn" text="Unselect" />
       <Label fx:id="AnimalGenomeSim1" layoutX="326.0" layoutY="629.0" text="Label" />
-      <Button layoutX="151.0" layoutY="821.0" mnemonicParsing="false" text="Select Dominant Genom Animals" />
+      <Button layoutX="151.0" layoutY="821.0" mnemonicParsing="false" onAction="#drawSelectedByGenomeBtnSim1" text="Select Dominant Genom Animals" />
       <Label layoutX="245.0" layoutY="662.0" text="Death Era:" />
       <Label fx:id="AnimalGenome1" layoutX="326.0" layoutY="662.0" text="Label" />
     </AnchorPane>
@@ -108,6 +108,6 @@
       <Label fx:id="AnimalGenomeSim2" layoutX="117.0" layoutY="633.0" text="Label" />
       <Label layoutX="36.0" layoutY="666.0" text="Death Era:" />
       <Label fx:id="AnimalGenome11" layoutX="117.0" layoutY="666.0" text="Label" />
-      <Button layoutX="341.0" layoutY="821.0" mnemonicParsing="false" text="Select Dominant Genom Animals" />
+      <Button layoutX="341.0" layoutY="821.0" mnemonicParsing="false" onAction="#drawSelectedByGenomeBtnSim2" text="Select Dominant Genom Animals" />
     </AnchorPane>
 </SplitPane>

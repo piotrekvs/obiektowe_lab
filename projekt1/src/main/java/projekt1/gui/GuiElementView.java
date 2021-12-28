@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class GuiElementView {
+    private final Image animalImg;
     private final Image animal100Img;
     private final Image animal75Img;
     private final Image animal50Img;
@@ -15,6 +16,7 @@ public class GuiElementView {
     private final int netSize;
 
     public GuiElementView(int netSize) throws FileNotFoundException {
+        animalImg = new Image(new FileInputStream("src/main/resources/assets/monkey.png"));
         animal100Img = new Image(new FileInputStream("src/main/resources/assets/monkey100.png"));
         animal75Img = new Image(new FileInputStream("src/main/resources/assets/monkey75.png"));
         animal50Img = new Image(new FileInputStream("src/main/resources/assets/monkey50.png"));
@@ -41,4 +43,10 @@ public class GuiElementView {
         return imageView;
     }
 
+    public ImageView getAnimalNoEnergyImg() {
+        ImageView imageView = new ImageView(animalImg);
+        imageView.setFitWidth(netSize);
+        imageView.setFitHeight(netSize);
+        return imageView;
+    }
 }
