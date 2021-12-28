@@ -24,12 +24,12 @@ public class Vector2d {
         return other.x <= x && other.y <= y;
     }
 
-    public boolean precedesIn1d(Vector2d other) {
-        return other.x >= x || other.y >= y;
+    public boolean stronglyPrecedesIn1d(Vector2d other) {
+        return other.x > x || other.y > y;
     }
 
-    public boolean followsIn1d(Vector2d other) {
-        return other.x <= x || other.y <= y;
+    public boolean stronglyFollowsIn1d(Vector2d other) {
+        return other.x < x || other.y < y;
     }
 
     public Vector2d upperRight(Vector2d other) {

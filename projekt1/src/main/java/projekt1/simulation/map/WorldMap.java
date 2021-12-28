@@ -17,7 +17,7 @@ public class WorldMap {
     protected final Vector2d upperRight;
     protected final Vector2d jungleLowerLeft;
     protected final Vector2d jungleUpperRight;
-    protected HashMap<Vector2d, IMapElement> grassHashMap = new HashMap<>();
+    protected HashMap<Vector2d, Grass> grassHashMap = new HashMap<>();
     protected HashMap<Vector2d, ArrayList<Animal>> animalHashMap = new HashMap<>();
 
     public WorldMap(Vector2d upperRight, Vector2d jungleLowerLeft, Vector2d jungleUpperRight, boolean isWrapped) {
@@ -33,13 +33,9 @@ public class WorldMap {
         int counter = 0;
         do {
             if (counter >= placingAttempts) return false;
-            newPosition = new Vector2d(
-                    jungleLowerLeft.getX() + rand.nextInt(jungleUpperRight.getX() - jungleLowerLeft.getX() + 1),
-                    jungleLowerLeft.getY() + rand.nextInt(jungleUpperRight.getY() - jungleLowerLeft.getY() + 1)
-            );
+            newPosition = new Vector2d(jungleLowerLeft.getX() + rand.nextInt(jungleUpperRight.getX() - jungleLowerLeft.getX() + 1), jungleLowerLeft.getY() + rand.nextInt(jungleUpperRight.getY() - jungleLowerLeft.getY() + 1));
             counter++;
         } while (isOccupied(newPosition));
-        System.out.println(newPosition);
         grassHashMap.put(newPosition, new Grass(newPosition, energy));
         return true;
     }
@@ -102,25 +98,30 @@ public class WorldMap {
         }
     }
 
-    public Vector2d moveTo(Vector2d position) {
-        Vector2d newPosition;
+    public int countHighestEnergyAnimals(Vector2d position) {
+        ArrayList<Animal> animals = animalHashMap.get(position);
+        int length = animals.size();
+        int highestEnergy = animals.get(length - 1).getEnergy();
+        int counter = 1;
+        for (int i = length - 2; i >= 0; i--) {
+            if (animals.get(i).getEnergy() == highestEnergy) counter++;
+            else return counter;
+        }
+        return counter;
+    }
+
+    public Vector2d moveTo(Vector2d position, Vector2d newPosition) {
         if (isWrapped) {
-            if (position.precedesIn1d(lowerLeft)) {
-                return new Vector2d(
-                        (upperRight.getX() + 1 + position.getX()) % (upperRight.getX() + 1),
-                        (upperRight.getY() + 1 + position.getY()) % (upperRight.getY() + 1)
-                );
+            if (newPosition.stronglyPrecedesIn1d(lowerLeft)) {
+                return new Vector2d((upperRight.getX() + 1 + newPosition.getX()) % (upperRight.getX() + 1), (upperRight.getY() + 1 + newPosition.getY()) % (upperRight.getY() + 1));
             } else {
-                return new Vector2d(
-                        lowerLeft.getX() + (position.getX() % (upperRight.getX() + 1)),
-                        lowerLeft.getY() + (position.getY() % (upperRight.getY() + 1))
-                );
+                return new Vector2d(lowerLeft.getX() + (newPosition.getX() % (upperRight.getX() + 1)), lowerLeft.getY() + (newPosition.getY() % (upperRight.getY() + 1)));
             }
         } else {
-            if (position.precedesIn1d(lowerLeft)) return position.upperRight(lowerLeft);
-            if (position.followsIn1d(upperRight)) return position.lowerLeft(upperRight);
+            if (newPosition.stronglyPrecedesIn1d(lowerLeft)) return position;
+            if (newPosition.stronglyFollowsIn1d(upperRight)) return position;
         }
-        return position;
+        return newPosition;
     }
 
     public boolean isOccupied(Vector2d position) {
@@ -155,7 +156,11 @@ public class WorldMap {
         return jungleUpperRight;
     }
 
-    public HashMap<Vector2d, IMapElement> getGrassHashMap() {
+    public boolean isWrapped() {
+        return isWrapped;
+    }
+
+    public HashMap<Vector2d, Grass> getGrassHashMap() {
         return grassHashMap;
     }
 

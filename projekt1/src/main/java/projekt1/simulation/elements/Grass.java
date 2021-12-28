@@ -20,4 +20,8 @@ public class Grass implements IMapElement {
     public String getImage() {
         return null;
     }
+
+    public int getEnergy() {
+        return energy;
+    }
 }

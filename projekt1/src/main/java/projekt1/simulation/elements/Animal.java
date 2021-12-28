@@ -26,11 +26,22 @@ public class Animal implements IMapElement{
         this.genome = new Genome(rand);
     }
 
-    public boolean move() {
+    public Animal(WorldMap map, Vector2d position, int energy, int startEnergy, Random rand, int[] left, int[] right)  {
+        this.position = position;
+        this.startEnergy = startEnergy;
+        this.energy = energy;
+        this.orientation = MapDirection.N.getRandomDirection();
+        this.map = map;
+        this.rand = rand;
+        this.genome = new Genome(left, right);
+    }
+
+    public boolean move(int moveCost) {
+        addEnergy(-moveCost);
         int nextOrientation = genome.getGenes()[rand.nextInt(genome.getLen())];
         if (nextOrientation % 4 == 0) {
             Vector2d newPosition = position.add(orientation.nextBy(nextOrientation).toUnitVector());
-            newPosition = map.moveTo(newPosition);
+            newPosition = map.moveTo(position, newPosition);
             if (newPosition.equals(position)) {
                 return false;
             } else {
@@ -57,7 +68,15 @@ public class Animal implements IMapElement{
         return energy;
     }
 
+    public void addEnergy(int x) {
+        energy += x;
+    }
+
     public int getEnergyPercent() {
         return (energy * 100) / startEnergy;
+    }
+
+    public int[] getGenes() {
+        return genome.getGenes();
     }
 }

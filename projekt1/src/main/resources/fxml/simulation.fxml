@@ -5,16 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-           prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17"
-           xmlns:fx="http://javafx.com/fxml/1">
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"
-                SplitPane.resizableWithParent="false">
-        <GridPane fx:id="sim1GridPane" layoutX="223.0" layoutY="40.0" AnchorPane.leftAnchor="240.0"
-                  AnchorPane.topAnchor="16.0"/>
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
+        <GridPane fx:id="sim1GridPane" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="16.0" />
 
-        <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#startSim1Btn" text="START"
-                AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="16.0"/>
+        <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#startSim1Btn" text="START" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="16.0" />
     </AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"/>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+        <GridPane fx:id="sim2GridPane" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="16.0"/>
+    </AnchorPane>
 </SplitPane>
