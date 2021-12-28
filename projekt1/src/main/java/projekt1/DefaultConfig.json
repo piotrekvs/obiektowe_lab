@@ -5,5 +5,7 @@
   "startNumOfAnimals": 50,
   "startEnergy": 100,
   "moveEnergy": 1,
-  "plantEnergy": 60
+  "plantEnergy": 60,
+  "isSim1Magical": false,
+  "isSim2Magical": false
 }

@@ -8,14 +8,16 @@ public class Config {
     private int startEnergy;
     private int moveEnergy;
     private int plantEnergy;
+    private boolean isSim1Magical;
+    private boolean isSim2Magical;
 
     public Config(int widthX, int heightY, int jungleRatio, int startNumOfAnimals,
-                  int startEnergy, int moveEnergy, int plantEnergy) {
-        setConfig(widthX, heightY, jungleRatio, startNumOfAnimals, startEnergy, moveEnergy, plantEnergy);
+                  int startEnergy, int moveEnergy, int plantEnergy, boolean isSim1Magical, boolean isSim2Magical) {
+        setConfig(widthX, heightY, jungleRatio, startNumOfAnimals, startEnergy, moveEnergy, plantEnergy, isSim1Magical, isSim2Magical);
     }
 
     public void setConfig(int widthX, int heightY, int jungleRatio, int startNumOfAnimals,
-                          int startEnergy, int moveEnergy, int plantEnergy) {
+                          int startEnergy, int moveEnergy, int plantEnergy, boolean isSim1Magical, boolean isSim2Magical) {
         this.widthX = widthX;
         this.heightY = heightY;
         this.jungleRatio = jungleRatio;
@@ -23,6 +25,8 @@ public class Config {
         this.startEnergy = startEnergy;
         this.moveEnergy = moveEnergy;
         this.plantEnergy = plantEnergy;
+        this.isSim1Magical = isSim1Magical;
+        this.isSim2Magical = isSim2Magical;
     }
 
     public int getWidthX() {
@@ -53,6 +57,14 @@ public class Config {
         return plantEnergy;
     }
 
+    public boolean isSim1Magical() {
+        return isSim1Magical;
+    }
+
+    public boolean isSim2Magical() {
+        return isSim2Magical;
+    }
+
     @Override
     public String toString() {
         return "Config{" +
@@ -63,6 +75,8 @@ public class Config {
                 ", startEnergy=" + startEnergy +
                 ", moveEnergy=" + moveEnergy +
                 ", plantEnergy=" + plantEnergy +
+                ", isSim1Magical=" + isSim1Magical +
+                ", isSim2Magical=" + isSim2Magical +
                 '}';
     }
 }

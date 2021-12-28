@@ -5,15 +5,18 @@ import projekt1.simulation.map.MapDirection;
 import projekt1.simulation.map.Vector2d;
 import projekt1.simulation.map.WorldMap;
 
+import java.util.Arrays;
 import java.util.Random;
 
-public class Animal implements IMapElement{
+public class Animal implements IMapElement {
     private final WorldMap map;
     private final Random rand;
     private MapDirection orientation;
     private Vector2d position;
     private final int startEnergy;
     private int energy;
+    private int lifespan = 0;
+    private int children = 0;
     private final Genome genome;
 
     public Animal(WorldMap map, Vector2d position, int startEnergy, Random rand) {
@@ -26,14 +29,14 @@ public class Animal implements IMapElement{
         this.genome = new Genome(rand);
     }
 
-    public Animal(WorldMap map, Vector2d position, int energy, int startEnergy, Random rand, int[] left, int[] right)  {
+    public Animal(WorldMap map, Vector2d position, int energy, int startEnergy, Random rand, Genome genome)  {
         this.position = position;
         this.startEnergy = startEnergy;
         this.energy = energy;
         this.orientation = MapDirection.N.getRandomDirection();
         this.map = map;
         this.rand = rand;
-        this.genome = new Genome(left, right);
+        this.genome = genome;
     }
 
     public boolean move(int moveCost) {
@@ -41,7 +44,7 @@ public class Animal implements IMapElement{
         int nextOrientation = genome.getGenes()[rand.nextInt(genome.getLen())];
         if (nextOrientation % 4 == 0) {
             Vector2d newPosition = position.add(orientation.nextBy(nextOrientation).toUnitVector());
-            newPosition = map.moveTo(position, newPosition);
+            newPosition = map.canMoveTo(position, newPosition);
             if (newPosition.equals(position)) {
                 return false;
             } else {
@@ -78,5 +81,25 @@ public class Animal implements IMapElement{
 
     public int[] getGenes() {
         return genome.getGenes();
+    }
+
+    public int getLifespan() {
+        return lifespan;
+    }
+
+    public void nextDay() {
+        lifespan++;
+    }
+
+    public void newChild() {
+        children++;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public Genome getGenome() {
+        return genome;
     }
 }

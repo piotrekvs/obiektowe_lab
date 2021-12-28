@@ -13,7 +13,7 @@ public class UserInterface implements IGui {
     private final Stage menuStage;
     private final Config defaultConfig;
     private static final Config config = new Config(0, 0, 0,
-            0, 0, 0, 0);
+            0, 0, 0, 0, false, false);
 
     public UserInterface(Stage primaryStage, Config defaultConfig) {
         this.menuStage = primaryStage;

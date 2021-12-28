@@ -38,4 +38,24 @@ public class Genome {
     public int getLen() {
         return LEN;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Genome genome = (Genome) o;
+
+        return Arrays.equals(genes, genome.genes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(genes);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(genes);
+    }
 }

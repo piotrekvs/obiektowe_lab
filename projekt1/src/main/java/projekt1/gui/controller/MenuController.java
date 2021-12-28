@@ -1,6 +1,7 @@
 package projekt1.gui.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import projekt1.gui.UserInterface;
@@ -28,6 +29,10 @@ public class MenuController {
     private TextField plantEnergyInput;
     @FXML
     private Label wrongValLabel;
+    @FXML
+    private CheckBox sim1Magic;
+    @FXML
+    private CheckBox sim2Magic;
 
     public MenuController(UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -42,6 +47,8 @@ public class MenuController {
         startEnergyInput.setText(Integer.toString(userInterface.getDefaultConfig().getStartEnergy()));
         moveEnergyInput.setText(Integer.toString(userInterface.getDefaultConfig().getMoveEnergy()));
         plantEnergyInput.setText(Integer.toString(userInterface.getDefaultConfig().getPlantEnergy()));
+        sim1Magic.setSelected(userInterface.getDefaultConfig().isSim1Magical());
+        sim2Magic.setSelected(userInterface.getDefaultConfig().isSim2Magical());
     }
 
     public void handleStartSimulationBtn() throws IOException {
@@ -54,11 +61,13 @@ public class MenuController {
                     parseInt(startNumOfAnimalsInput.getText()),
                     parseInt(startEnergyInput.getText()),
                     parseInt(moveEnergyInput.getText()),
-                    parseInt(plantEnergyInput.getText())
+                    parseInt(plantEnergyInput.getText()),
+                    sim1Magic.isSelected(),
+                    sim2Magic.isSelected()
             );
             wrongValLabel.setText("");
             System.out.println("StartSimulationBtn: Configuration set.");
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             wrongValLabel.setText("WRONG VALUES!");
             System.out.println("StartSimulationBtn: WRONG VALUES!");
             return;

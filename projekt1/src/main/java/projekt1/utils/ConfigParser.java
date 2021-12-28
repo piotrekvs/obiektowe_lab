@@ -20,8 +20,10 @@ public class ConfigParser {
         int startEnergy = jsonObject.getInt("startEnergy");
         int moveEnergy = jsonObject.getInt("moveEnergy");
         int plantEnergy = jsonObject.getInt("plantEnergy");
+        boolean isSim1Magical = jsonObject.getBoolean("isSim1Magical");
+        boolean isSim2Magical = jsonObject.getBoolean("isSim2Magical");
 
         return new Config( widthX,  heightY,  jungleRatio, startNumOfAnimals,
-                startEnergy, moveEnergy, plantEnergy);
+                startEnergy, moveEnergy, plantEnergy, isSim1Magical, isSim2Magical);
     }
 }

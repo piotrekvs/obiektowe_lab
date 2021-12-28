@@ -1,15 +1,11 @@
 package projekt1.simulation.map;
 
-import projekt1.simulation.elements.Animal;
-import projekt1.simulation.elements.AnimalEnergyComperator;
-import projekt1.simulation.elements.Grass;
-import projekt1.simulation.elements.IMapElement;
+import projekt1.simulation.elements.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class WorldMap {
+    private final WorldStatistics worldStatistics = new WorldStatistics();
     private static final Random rand = new Random();
     private final boolean isWrapped;
     protected final int placingAttempts;
@@ -28,24 +24,23 @@ public class WorldMap {
         this.isWrapped = isWrapped;
     }
 
-    public boolean placeGrassInJungle(int energy) {
+    public void placeGrassInJungle(int energy) {
         Vector2d newPosition;
         int counter = 0;
         do {
-            if (counter >= placingAttempts) return false;
+            if (counter >= placingAttempts) return;
             newPosition = new Vector2d(jungleLowerLeft.getX() + rand.nextInt(jungleUpperRight.getX() - jungleLowerLeft.getX() + 1), jungleLowerLeft.getY() + rand.nextInt(jungleUpperRight.getY() - jungleLowerLeft.getY() + 1));
             counter++;
         } while (isOccupied(newPosition));
         grassHashMap.put(newPosition, new Grass(newPosition, energy));
-        return true;
     }
 
-    public boolean placeGrassNotInJungle(int energy) {
+    public void placeGrassNotInJungle(int energy) {
         Vector2d newPosition;
         boolean isJungle;
         int counter = 0;
         do {
-            if (counter >= placingAttempts) return false;
+            if (counter >= placingAttempts) return;
             newPosition = new Vector2d(rand.nextInt(upperRight.getX() + 1), rand.nextInt(upperRight.getY() + 1));
             if (isJungle(newPosition)) {
                 isJungle = true;
@@ -55,11 +50,6 @@ public class WorldMap {
             }
         } while (isOccupied(newPosition) || isJungle);
         grassHashMap.put(newPosition, new Grass(newPosition, energy));
-        return true;
-    }
-
-    public void removeGrass(Vector2d position) {
-        grassHashMap.remove(position);
     }
 
     public Animal placeAnimalRandomly(int energy) {
@@ -71,6 +61,17 @@ public class WorldMap {
             position = new Vector2d(rand.nextInt(upperRight.getX() + 1), rand.nextInt(upperRight.getY() + 1));
         } while (isOccupied(position));
         return placeAnimal(new Animal(this, position, energy, rand));
+    }
+
+    public Animal placeAnimalRandomlyMagicalEvent(int startEnergy, Genome genome) {
+        Vector2d position;
+        int counter = 0;
+        do {
+            if (counter >= placingAttempts) return null;
+            counter++;
+            position = new Vector2d(rand.nextInt(upperRight.getX() + 1), rand.nextInt(upperRight.getY() + 1));
+        } while (isOccupied(position));
+        return placeAnimal(new Animal(this, position, startEnergy, startEnergy, rand, genome));
     }
 
     public Animal placeAnimal(Animal animal) {
@@ -88,16 +89,6 @@ public class WorldMap {
         return animal;
     }
 
-    public void removeAnimal(Vector2d position, Animal animal) {
-        if (animalHashMap.containsKey(position)) {
-            ArrayList<Animal> array = animalHashMap.get(position);
-            array.remove(animal);
-            if (array.size() == 0) {
-                animalHashMap.remove(position);
-            }
-        }
-    }
-
     public int countHighestEnergyAnimals(Vector2d position) {
         ArrayList<Animal> animals = animalHashMap.get(position);
         int length = animals.size();
@@ -110,7 +101,7 @@ public class WorldMap {
         return counter;
     }
 
-    public Vector2d moveTo(Vector2d position, Vector2d newPosition) {
+    public Vector2d canMoveTo(Vector2d position, Vector2d newPosition) {
         if (isWrapped) {
             if (newPosition.stronglyPrecedesIn1d(lowerLeft)) {
                 return new Vector2d((upperRight.getX() + 1 + newPosition.getX()) % (upperRight.getX() + 1), (upperRight.getY() + 1 + newPosition.getY()) % (upperRight.getY() + 1));
@@ -123,6 +114,102 @@ public class WorldMap {
         }
         return newPosition;
     }
+
+//
+//
+//
+//
+//
+//  DAY CYCLE METHODS:
+
+    public void deleteDeadAnimals() {
+        Iterator<Vector2d> it = animalHashMap.keySet().iterator();
+        while (it.hasNext()) {
+            Vector2d key = it.next();
+            ArrayList<Animal> animals = animalHashMap.get(key);
+            while (!animals.isEmpty() && animals.get(0).getEnergy() <= 0) {
+                worldStatistics.addDeadAnimal(animals.get(0).getLifespan());
+                animals.remove(0);
+            }
+            if (animals.isEmpty()) it.remove();
+        }
+    }
+
+    public void makeMoves(int moveEnergy) {
+        Object[] keys = animalHashMap.keySet().toArray();
+        for (Object key : keys) {
+            ArrayList<Animal> animals = animalHashMap.get((Vector2d) key);
+            Iterator<Animal> it = animals.iterator();
+            while (it.hasNext()) {
+                Animal animal = it.next();
+                if (animal.move(moveEnergy)) {
+                    it.remove();
+                    placeAnimal(animal);
+                }
+            }
+            if (animals.isEmpty()) {
+                animalHashMap.remove(key);
+            }
+        }
+    }
+
+    public void eatGrass() {
+        Iterator<Vector2d> it = grassHashMap.keySet().iterator();
+        while (it.hasNext()) {
+            Vector2d key = it.next();
+            if (isAnimal(key)) {
+                ArrayList<Animal> animals = animalHashMap.get(key);
+                int highestEnergyAnimals = countHighestEnergyAnimals(key);
+                int length = animals.size();
+                int energyAddition = grassHashMap.get(key).getEnergy() / highestEnergyAnimals;
+                for (int i = length - 1; i >= length - highestEnergyAnimals; i--) {
+                    animals.get(i).addEnergy(energyAddition);
+                }
+                it.remove();
+            }
+        }
+    }
+
+    public void animalsMultiplication(int startEnergy) {
+        animalHashMap.keySet().forEach(position -> {
+            ArrayList<Animal> animals = animalHashMap.get(position);
+            int length = animals.size();
+            if (length > 1 && animals.get(length - 1).getEnergy() > 4
+                    && animals.get(length - 2).getEnergy() > 4) {
+                Animal parent1 = animals.get(length - 1);
+                Animal parent2 = animals.get(length - 2);
+                int[] left;
+                int[] right;
+                int leftLength = parent1.getEnergy() / (parent1.getEnergy() + parent2.getEnergy());
+                if (rand.nextInt(2) == 0) {
+                    left = Arrays.copyOfRange(parent1.getGenes(), 0, leftLength);
+                    right = Arrays.copyOfRange(parent2.getGenes(), leftLength, parent2.getGenes().length);
+                } else {
+                    left = Arrays.copyOfRange(parent2.getGenes(),
+                            0, parent2.getGenes().length - leftLength);
+                    right = Arrays.copyOfRange(parent1.getGenes(),
+                            parent2.getGenes().length - leftLength, parent2.getGenes().length);
+                }
+                if (left.length + right.length != 32) {
+                    System.exit(1);
+                }
+                Animal animal = new Animal(this, position, parent1.getEnergy() / 4 + parent2.getEnergy() / 4,
+                        startEnergy, rand, new Genome(left, right));
+                placeAnimal(animal);
+                parent1.addEnergy(-parent1.getEnergy()/4);
+                parent2.addEnergy(-parent2.getEnergy()/4);
+                parent1.newChild();
+                parent2.newChild();
+            }
+        });
+    }
+
+//
+//
+//
+//
+//
+//  GETTERS AND SETTERS
 
     public boolean isOccupied(Vector2d position) {
         return (isGrass(position) || isAnimal(position));
@@ -140,20 +227,8 @@ public class WorldMap {
         return position.follows(jungleLowerLeft) && position.precedes(jungleUpperRight);
     }
 
-    public Vector2d getLowerLeft() {
-        return lowerLeft;
-    }
-
     public Vector2d getUpperRight() {
         return upperRight;
-    }
-
-    public Vector2d getJungleLowerLeft() {
-        return jungleLowerLeft;
-    }
-
-    public Vector2d getJungleUpperRight() {
-        return jungleUpperRight;
     }
 
     public boolean isWrapped() {
@@ -166,5 +241,9 @@ public class WorldMap {
 
     public HashMap<Vector2d, ArrayList<Animal>> getAnimalHashMap() {
         return animalHashMap;
+    }
+
+    public WorldStatistics getWorldStatistics() {
+        return worldStatistics;
     }
 }

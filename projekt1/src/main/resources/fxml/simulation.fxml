@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -9,9 +12,88 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
         <GridPane fx:id="sim1GridPane" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="16.0" />
 
-        <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#startSim1Btn" text="START" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="16.0" />
+        <Button mnemonicParsing="false" onAction="#startSim1Btn" text="START / STOP" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="8.0" />
+        <Label layoutX="125.0" layoutY="12.0" text="Wall map" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="12.0" />
+      <LineChart fx:id="LivingAnimAndPlantsChartSim1" animated="false" createSymbols="false" layoutX="8.0" layoutY="64.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="40.0">
+        <xAxis>
+          <NumberAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Label layoutX="14.0" layoutY="775.0" text="Magical events: " AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="775.0" />
+      <LineChart fx:id="EnergyChartSim1" animated="false" createSymbols="false" layoutX="10.0" layoutY="265.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="220.0">
+         <xAxis>
+            <NumberAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <LineChart fx:id="ChildrenChartSim1" animated="false" createSymbols="false" layoutX="10.0" layoutY="437.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="400.0">
+         <xAxis>
+            <NumberAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <LineChart fx:id="lifespanChartSim1" animated="false" createSymbols="false" layoutX="20.0" layoutY="275.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="580.0">
+         <xAxis>
+            <NumberAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <Label layoutX="9.0" layoutY="796.0" text="Dead Animals: " AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="800.0" />
+      <Label layoutX="14.0" layoutY="818.0" text="Dominant Genome:" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="825.0" />
+      <Label fx:id="magicalEventsSim1" layoutX="120.0" layoutY="775.0" text="Label" AnchorPane.topAnchor="775.0" />
+      <Label fx:id="deadAnimalsSim1" layoutX="120.0" layoutY="800.0" text="Label" />
+      <Label fx:id="dominantGenomeSim1" layoutX="40.0" layoutY="851.0" text="Label" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="850.0" />
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-        <GridPane fx:id="sim2GridPane" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="16.0"/>
+        <GridPane fx:id="sim2GridPane" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="16.0" />
+        <Button mnemonicParsing="false" onAction="#startSim2Btn" text="START / STOP" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
+        <Label text="Wrapped map" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="12.0" />
+      <LineChart fx:id="LivingAnimAndPlantsChartSim2" animated="false" createSymbols="false" layoutX="538.0" layoutY="61.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="40.0">
+         <xAxis>
+            <NumberAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <Label layoutX="544.0" layoutY="772.0" text="Magical events: " AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="775.0" />
+      <LineChart fx:id="EnergyChartSim2" animated="false" createSymbols="false" layoutX="540.0" layoutY="262.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="220.0">
+         <xAxis>
+            <NumberAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <LineChart fx:id="ChildrenChartSim2" animated="false" createSymbols="false" layoutX="540.0" layoutY="434.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="400.0">
+         <xAxis>
+            <NumberAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <LineChart fx:id="lifespanChartSim2" animated="false" createSymbols="false" layoutX="319.0" layoutY="542.0" legendSide="TOP" prefHeight="195.0" prefWidth="220.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="580.0">
+         <xAxis>
+            <NumberAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <Label layoutX="539.0" layoutY="793.0" text="Dead Animals: " AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="800.0" />
+      <Label layoutX="544.0" layoutY="815.0" text="Dominant Genome:" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="825.0" />
+      <Label fx:id="magicalEventsSim2" layoutX="650.0" layoutY="772.0" text="Label" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="775.0" />
+      <Label fx:id="deadAnimalsSim2" layoutX="650.0" layoutY="797.0" text="Label" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="800.0" />
+      <Label fx:id="dominantGenomeSim2" layoutX="570.0" layoutY="848.0" text="Label" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="850.0" />
     </AnchorPane>
 </SplitPane>
