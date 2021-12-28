@@ -2,12 +2,15 @@ package projekt1.gui.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -31,6 +34,10 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
     private final WorldMap sim2Map;
     private int netArrayLength;
     private StatisticsHelper stats = new StatisticsHelper();
+    private boolean isAnimalSim1Selected = false;
+    private Animal selectedAnimalSim1;
+    private boolean isAnimalSim2Selected = false;
+    private Animal selectedAnimalSim2;
 
     @FXML private GridPane sim1GridPane;
     @FXML private GridPane sim2GridPane;
@@ -48,6 +55,9 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
     @FXML private Label deadAnimalsSim2;
     @FXML private Label dominantGenomeSim2;
     @FXML private Label magicalEventsSim2;
+
+    @FXML private Label AnimalGenomeSim1;
+    @FXML private Label AnimalGenomeSim2;
 
     public SimulationController(SimulationInterface simulationInterface, WorldMap mapNotWrapped, WorldMap mapWrapped)
             throws FileNotFoundException {
@@ -91,10 +101,38 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
         animalKeySet.forEach(position -> {
             ArrayList<Animal> animals = map.getAnimalHashMap().get(position);
             int energyPercent = animals.get(animals.size() - 1).getEnergyPercent();
-            gridPane.add(guiElementBox.getAnimalImg(energyPercent), position.getX() + 1,
+            ImageView iv = guiElementBox.getAnimalImg(energyPercent);
+            iv.setOnMouseClicked(e -> {
+                if (map.isWrapped()) {
+                    isAnimalSim2Selected = true;
+                    onSelectedAnimalSim2(animals.get(animals.size() - 1));
+                } else {
+                    isAnimalSim1Selected = true;
+                    onSelectedAnimalSim1(animals.get(animals.size() - 1));
+                }
+            });
+            gridPane.add(iv, position.getX() + 1,
                     map.getUpperRight().getY() + 1 - position.getY(), 1, 1);
         });
     }
+
+//    private void drawSelectedByGenome(GridPane gridPane, WorldMap map) {
+//        if (gridPane.getChildren().size() > netArrayLength) {
+//            gridPane.getChildren().remove(netArrayLength, gridPane.getChildren().size());
+//        }
+//
+//        Set<Vector2d> grassKeySet = map.getGrassHashMap().keySet();
+//        Set<Vector2d> animalKeySet = map.getAnimalHashMap().keySet();
+//
+//        animalKeySet.forEach(position -> {
+//            ArrayList<Animal> animals = map.getAnimalHashMap().get(position);
+//            int energyPercent = animals.get(animals.size() - 1).getEnergyPercent();
+//            ImageView iv = guiElementBox.getAnimalImg(energyPercent);
+//
+//            gridPane.add(iv, position.getX() + 1,
+//                    map.getUpperRight().getY() + 1 - position.getY(), 1, 1);
+//        });
+//    }
 
     private void drawNet(GridPane gridPane, WorldMap map) {
         gridPane.setGridLinesVisible(true);
@@ -141,6 +179,28 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
         } else {
             simulationInterface.startEngine2();
         }
+    }
+
+    private void onSelectedAnimalSim1(Animal animal) {
+        selectedAnimalSim1 = animal;
+        isAnimalSim1Selected = true;
+        AnimalGenomeSim1.setText(selectedAnimalSim1.getGenome().toString());
+    }
+
+    private void onSelectedAnimalSim2(Animal animal) {
+        selectedAnimalSim2 = animal;
+        isAnimalSim2Selected = true;
+        AnimalGenomeSim2.setText(selectedAnimalSim2.getGenome().toString());
+    }
+
+    public void unselectAnimalSim1Btn() {
+        isAnimalSim1Selected = false;
+        AnimalGenomeSim1.setText("");
+    }
+
+    public void unselectAnimalSim2Btn() {
+        isAnimalSim2Selected = false;
+        AnimalGenomeSim2.setText("");
     }
 
     @Override

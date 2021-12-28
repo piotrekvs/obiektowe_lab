@@ -52,6 +52,13 @@
       <Label fx:id="magicalEventsSim1" layoutX="120.0" layoutY="775.0" text="Label" AnchorPane.topAnchor="775.0" />
       <Label fx:id="deadAnimalsSim1" layoutX="120.0" layoutY="800.0" text="Label" />
       <Label fx:id="dominantGenomeSim1" layoutX="40.0" layoutY="851.0" text="Label" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="850.0" />
+      <Label layoutX="245.0" layoutY="595.0" text="Selected Animal:" />
+      <Label layoutX="245.0" layoutY="629.0" text="Genome:" />
+      <Button layoutX="384.0" layoutY="591.0" mnemonicParsing="false" onAction="#unselectAnimalSim1Btn" text="Unselect" />
+      <Label fx:id="AnimalGenomeSim1" layoutX="326.0" layoutY="629.0" text="Label" />
+      <Button layoutX="151.0" layoutY="821.0" mnemonicParsing="false" text="Select Dominant Genom Animals" />
+      <Label layoutX="245.0" layoutY="662.0" text="Death Era:" />
+      <Label fx:id="AnimalGenome1" layoutX="326.0" layoutY="662.0" text="Label" />
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
         <GridPane fx:id="sim2GridPane" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="16.0" />
@@ -95,5 +102,12 @@
       <Label fx:id="magicalEventsSim2" layoutX="650.0" layoutY="772.0" text="Label" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="775.0" />
       <Label fx:id="deadAnimalsSim2" layoutX="650.0" layoutY="797.0" text="Label" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="800.0" />
       <Label fx:id="dominantGenomeSim2" layoutX="570.0" layoutY="848.0" text="Label" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="850.0" />
+      <Label layoutX="36.0" layoutY="599.0" text="Selected Animal:" />
+      <Label layoutX="36.0" layoutY="633.0" text="Genome:" />
+      <Button layoutX="175.0" layoutY="595.0" mnemonicParsing="false" onAction="#unselectAnimalSim2Btn" text="Unselect" />
+      <Label fx:id="AnimalGenomeSim2" layoutX="117.0" layoutY="633.0" text="Label" />
+      <Label layoutX="36.0" layoutY="666.0" text="Death Era:" />
+      <Label fx:id="AnimalGenome11" layoutX="117.0" layoutY="666.0" text="Label" />
+      <Button layoutX="341.0" layoutY="821.0" mnemonicParsing="false" text="Select Dominant Genom Animals" />
     </AnchorPane>
 </SplitPane>
