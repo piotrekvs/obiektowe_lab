@@ -30,19 +30,7 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
     private final WorldMap sim1Map;
     private final WorldMap sim2Map;
     private int netArrayLength;
-    // Charts1:
-    private final XYChart.Series<Number, Number> animalsAliveDataSim1 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> plantsAliveDataSim1 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> avgEnergyLvlDataSim1 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> avgChildrenNumDataSim1 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> avgLifespanNumDataSim1 = new XYChart.Series<Number, Number>();
-    // Charts2:
-    private final XYChart.Series<Number, Number> animalsAliveDataSim2 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> plantsAliveDataSim2 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> avgEnergyLvlDataSim2 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> avgChildrenNumDataSim2 = new XYChart.Series<Number, Number>();
-    private final XYChart.Series<Number, Number> avgLifespanNumDataSim2 = new XYChart.Series<Number, Number>();
-
+    private StatisticsHelper stats = new StatisticsHelper();
 
     @FXML private GridPane sim1GridPane;
     @FXML private GridPane sim2GridPane;
@@ -61,8 +49,6 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
     @FXML private Label dominantGenomeSim2;
     @FXML private Label magicalEventsSim2;
 
-
-
     public SimulationController(SimulationInterface simulationInterface, WorldMap mapNotWrapped, WorldMap mapWrapped)
             throws FileNotFoundException {
         this.simulationInterface = simulationInterface;
@@ -74,35 +60,17 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
         drawNet(sim1GridPane, sim1Map);
         drawNet(sim2GridPane, sim2Map);
         // Charts Sim1
-        // Chart animalsAliveDataSim1
-        animalsAliveDataSim1.setName("Animals");
-        plantsAliveDataSim1.setName("Plants");
-        LivingAnimAndPlantsChartSim1.getData().add(animalsAliveDataSim1);
-        LivingAnimAndPlantsChartSim1.getData().add(plantsAliveDataSim1);
-        // Chart avgEnergyLvlDataSim1
-        avgEnergyLvlDataSim1.setName("avgEnergy");
-        EnergyChartSim1.getData().add(avgEnergyLvlDataSim1);
-        // Chart ChildrenChartSim1
-        avgChildrenNumDataSim1.setName("avgChildrenNum");
-        ChildrenChartSim1.getData().add(avgChildrenNumDataSim1);
-        // Chart LifespanChartSim1
-        avgLifespanNumDataSim1.setName("avgLifespan");
-        lifespanChartSim1.getData().add(avgLifespanNumDataSim1);
+        LivingAnimAndPlantsChartSim1.getData().add(stats.animalsAliveDataSim1);
+        LivingAnimAndPlantsChartSim1.getData().add(stats.plantsAliveDataSim1);
+        EnergyChartSim1.getData().add(stats.avgEnergyLvlDataSim1);
+        ChildrenChartSim1.getData().add(stats.avgChildrenNumDataSim1);
+        lifespanChartSim1.getData().add(stats.avgLifespanNumDataSim1);
         // Charts Sim2
-        // Chart animalsAliveDataSim2
-        animalsAliveDataSim2.setName("Animals");
-        plantsAliveDataSim2.setName("Plants");
-        LivingAnimAndPlantsChartSim2.getData().add(animalsAliveDataSim2);
-        LivingAnimAndPlantsChartSim2.getData().add(plantsAliveDataSim2);
-        // Chart avgEnergyLvlDataSim2
-        avgEnergyLvlDataSim2.setName("avgEnergy");
-        EnergyChartSim2.getData().add(avgEnergyLvlDataSim2);
-        // Chart ChildrenChartSim2
-        avgChildrenNumDataSim2.setName("avgChildrenNum");
-        ChildrenChartSim2.getData().add(avgChildrenNumDataSim2);
-        // Chart LifespanChartSim2
-        avgLifespanNumDataSim2.setName("avgLifespan");
-        lifespanChartSim2.getData().add(avgLifespanNumDataSim2);
+        LivingAnimAndPlantsChartSim2.getData().add(stats.animalsAliveDataSim2);
+        LivingAnimAndPlantsChartSim2.getData().add(stats.plantsAliveDataSim2);
+        EnergyChartSim2.getData().add(stats.avgEnergyLvlDataSim2);
+        ChildrenChartSim2.getData().add(stats.avgChildrenNumDataSim2);
+        lifespanChartSim2.getData().add(stats.avgLifespanNumDataSim2);
     }
 
     private void drawMap(GridPane gridPane, WorldMap map) {
@@ -159,48 +127,6 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
         netArrayLength = gridPane.getChildren().size();
     }
 
-    public void drawStatisticsSim1() {
-        animalsAliveDataSim1.getData().add(new XYChart.Data<Number, Number>(
-                sim1Map.getWorldStatistics().getCurrentDay(), sim1Map.getWorldStatistics().getAliveAnimals()
-        ));
-        plantsAliveDataSim1.getData().add(new XYChart.Data<Number, Number>(
-                sim1Map.getWorldStatistics().getCurrentDay(), sim1Map.getWorldStatistics().getNumOfGrass()
-        ));
-        avgEnergyLvlDataSim1.getData().add(new XYChart.Data<Number, Number>(
-                sim1Map.getWorldStatistics().getCurrentDay(), sim1Map.getWorldStatistics().getAvgEnergyLvl()
-        ));
-        avgChildrenNumDataSim1.getData().add(new XYChart.Data<Number, Number>(
-                sim1Map.getWorldStatistics().getCurrentDay(), sim1Map.getWorldStatistics().getAvgChildrenNum()
-        ));
-        avgLifespanNumDataSim1.getData().add(new XYChart.Data<Number, Number>(
-                sim1Map.getWorldStatistics().getCurrentDay(), sim1Map.getWorldStatistics().getAvgLifespanOfDeadAnimals()
-        ));
-        magicalEventsSim1.setText(Integer.toString(sim1Map.getWorldStatistics().getMagicalEvents()));
-        deadAnimalsSim1.setText(Integer.toString(sim1Map.getWorldStatistics().getDeadAnimals()));
-        dominantGenomeSim1.setText(sim1Map.getWorldStatistics().getDominantGenome().toString());
-    }
-
-    public void drawStatisticsSim2() {
-        animalsAliveDataSim2.getData().add(new XYChart.Data<Number, Number>(
-                sim2Map.getWorldStatistics().getCurrentDay(), sim2Map.getWorldStatistics().getAliveAnimals()
-        ));
-        plantsAliveDataSim2.getData().add(new XYChart.Data<Number, Number>(
-                sim2Map.getWorldStatistics().getCurrentDay(), sim2Map.getWorldStatistics().getNumOfGrass()
-        ));
-        avgEnergyLvlDataSim2.getData().add(new XYChart.Data<Number, Number>(
-                sim2Map.getWorldStatistics().getCurrentDay(), sim2Map.getWorldStatistics().getAvgEnergyLvl()
-        ));
-        avgChildrenNumDataSim2.getData().add(new XYChart.Data<Number, Number>(
-                sim2Map.getWorldStatistics().getCurrentDay(), sim2Map.getWorldStatistics().getAvgChildrenNum()
-        ));
-        avgLifespanNumDataSim2.getData().add(new XYChart.Data<Number, Number>(
-                sim2Map.getWorldStatistics().getCurrentDay(), sim2Map.getWorldStatistics().getAvgLifespanOfDeadAnimals()
-        ));
-        magicalEventsSim2.setText(Integer.toString(sim2Map.getWorldStatistics().getMagicalEvents()));
-        deadAnimalsSim2.setText(Integer.toString(sim2Map.getWorldStatistics().getDeadAnimals()));
-        dominantGenomeSim2.setText(sim2Map.getWorldStatistics().getDominantGenome().toString());
-    }
-
     public void startSim1Btn() {
         if (simulationInterface.sim1Engine.isWorking()) {
             simulationInterface.sim1Engine.setWorking(false);
@@ -234,11 +160,11 @@ public class SimulationController implements IEraEndedObserver, IStatisticsUpdat
     public void statisticsUpdated(boolean isWrapped) {
         if (isWrapped) {
             Platform.runLater(() -> {
-                drawStatisticsSim2();
+                stats.drawStatisticsSim2(sim2Map, deadAnimalsSim2, dominantGenomeSim2, magicalEventsSim2);
             });
         } else {
             Platform.runLater(() -> {
-                drawStatisticsSim1();
+                stats.drawStatisticsSim1(sim1Map, deadAnimalsSim1, dominantGenomeSim1, magicalEventsSim1);
             });
         }
     }
