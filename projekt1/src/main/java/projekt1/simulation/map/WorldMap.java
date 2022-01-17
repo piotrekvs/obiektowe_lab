@@ -101,7 +101,7 @@ public class WorldMap {
         return counter;
     }
 
-    public Vector2d canMoveTo(Vector2d position, Vector2d newPosition) {
+    public Vector2d canMoveTo(Vector2d position, Vector2d newPosition) {    // typ zwracany koliduje z nazwą metody
         if (isWrapped) {
             if (newPosition.stronglyPrecedesIn1d(lowerLeft)) {
                 return new Vector2d((upperRight.getX() + 1 + newPosition.getX()) % (upperRight.getX() + 1), (upperRight.getY() + 1 + newPosition.getY()) % (upperRight.getY() + 1));

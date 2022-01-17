@@ -24,7 +24,7 @@ public class Vector2d {
         return other.x <= x && other.y <= y;
     }
 
-    public boolean stronglyPrecedesIn1d(Vector2d other) {
+    public boolean stronglyPrecedesIn1d(Vector2d other) {   // nie rozumiem celu tej metody
         return other.x > x || other.y > y;
     }
 

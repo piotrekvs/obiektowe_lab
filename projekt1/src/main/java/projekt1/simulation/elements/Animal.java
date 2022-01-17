@@ -29,7 +29,7 @@ public class Animal implements IMapElement {
         this.genome = new Genome(rand);
     }
 
-    public Animal(WorldMap map, Vector2d position, int energy, int startEnergy, Random rand, Genome genome)  {
+    public Animal(WorldMap map, Vector2d position, int energy, int startEnergy, Random rand, Genome genome)  {  // DRY
         this.position = position;
         this.startEnergy = startEnergy;
         this.energy = energy;
@@ -42,7 +42,7 @@ public class Animal implements IMapElement {
     public boolean move(int moveCost) {
         addEnergy(-moveCost);
         int nextOrientation = genome.getGenes()[rand.nextInt(genome.getLen())];
-        if (nextOrientation % 4 == 0) {
+        if (nextOrientation % 4 == 0) { // za miesiąc będzie Pan pamiętał czemu tak?
             Vector2d newPosition = position.add(orientation.nextBy(nextOrientation).toUnitVector());
             newPosition = map.canMoveTo(position, newPosition);
             if (newPosition.equals(position)) {

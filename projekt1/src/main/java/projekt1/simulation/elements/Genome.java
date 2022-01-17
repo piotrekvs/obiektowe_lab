@@ -9,16 +9,16 @@ public class Genome {
     private final static int LEN = 32;
     private final static int genesRange = 8;
 
-    private final int[] genes = new int[LEN];
+    private final int[] genes = new int[LEN];   // czy enum nie byłby lepszy niż int?
 
-    public Genome(Random rand) {
+    public Genome(Random rand) {    // nie lepiej bezparametrowy, a Random sobie stworzyć jako private static final?
         for (int i = 0; i < LEN; i++) {
             genes[i] = rand.nextInt(genesRange);
         }
         Arrays.sort(genes);
     }
 
-    public Genome(int[] left, int[] right) {
+    public Genome(int[] left, int[] right) {    // brak kontroli poprawności; nie lepiej przyjąć dwa genotypy?
         int i = 0;
         for (int l : left) {
             genes[i] = l;
@@ -32,7 +32,7 @@ public class Genome {
     }
 
     public int[] getGenes() {
-        return genes;
+        return genes;   // zwraca Pan na zewnątrz obiekt modyfikowalny
     }
 
     public int getLen() {

@@ -5,7 +5,7 @@ import projekt1.Main;
 import java.util.Random;
 
 public enum MapDirection {
-    N, NE, E, SE, S, SW, W, NW;
+    N, NE, E, SE, S, SW, W, NW; // pełnymi słowami by było czytelniej
 
     private final String[] plNames = new String[]{
             "North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"
@@ -39,8 +39,8 @@ public enum MapDirection {
         return previousBy(1);
     }
 
-    public MapDirection getRandomDirection() {
-        return MapDirection.values()[new Random().nextInt(8)];
+    public static MapDirection getRandomDirection() {
+        return MapDirection.values()[new Random().nextInt(8)];  // nowy obiekt co wywołanie
     }
 
     public Vector2d toUnitVector() {

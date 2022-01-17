@@ -8,8 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ConfigParser {
-    public static Config parse() throws Exception {
-        Path path = Path.of("src/main/java/projekt1/DefaultConfig.json");
+    public static Config parse() throws Exception { // czemu throws Exception?
+        Path path = Path.of("src/main/java/projekt1/DefaultConfig.json");   // parametry powinny być ustawiane przez GUI, nie z pliku
         String jsonString = Files.readString(path);
         JSONObject jsonObject = new JSONObject(jsonString);
 

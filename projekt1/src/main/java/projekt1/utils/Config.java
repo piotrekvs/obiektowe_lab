@@ -1,7 +1,7 @@
 package projekt1.utils;
 
 public class Config {
-    private int widthX;
+    private int widthX; // to by nie mogło być finalne?
     private int heightY;
     private int jungleRatio;
     private int startNumOfAnimals;
@@ -17,7 +17,7 @@ public class Config {
     }
 
     public void setConfig(int widthX, int heightY, int jungleRatio, int startNumOfAnimals,
-                          int startEnergy, int moveEnergy, int plantEnergy, boolean isSim1Magical, boolean isSim2Magical) {
+                          int startEnergy, int moveEnergy, int plantEnergy, boolean isSim1Magical, boolean isSim2Magical) { // czy na pewno chcemy udostępniać taki setter? i czy chcemy zmieniać ustawienia w trakcie działania?
         this.widthX = widthX;
         this.heightY = heightY;
         this.jungleRatio = jungleRatio;

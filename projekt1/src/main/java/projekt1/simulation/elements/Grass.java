@@ -18,7 +18,7 @@ public class Grass implements IMapElement {
 
     @Override
     public String getImage() {
-        return null;
+        return null;    // na pewno?
     }
 
     public int getEnergy() {

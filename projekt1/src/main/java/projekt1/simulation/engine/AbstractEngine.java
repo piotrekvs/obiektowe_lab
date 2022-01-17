@@ -15,7 +15,7 @@ public class AbstractEngine implements IEngine, Runnable {
     protected int lastStatsUpdate = -10;
     protected final ArrayList<IEraEndedObserver> eraEndedObservers = new ArrayList<>();
     protected final ArrayList<IStatisticsUpdateObserver> statisticsUpdatedObservers = new ArrayList<>();
-    protected final Random random = new Random();
+    protected static final Random random = new Random();
     protected final WorldMap map;
     protected final int moveDelay = 50;
     protected final int startNumOfAnimals;
@@ -37,7 +37,7 @@ public class AbstractEngine implements IEngine, Runnable {
         this.initializeSimulation();
     }
 
-    public void initializeSimulation() {
+    public void initializeSimulation() {    // czy można (i jest sens) tę metodę wywoływać wielokrotnie? Bo jeśli nie, to powinna być prywatna
         for (int i = 0; i < startNumOfAnimals; i++) {
             map.placeAnimalRandomly(startEnergy);
         }
@@ -99,7 +99,7 @@ public class AbstractEngine implements IEngine, Runnable {
         // Set Dominant Genome
         Genome dominantGenome = null;
         int max = 0;
-        for (Genome genome : dominantGenomeHashMap.keySet()) {
+        for (Genome genome : dominantGenomeHashMap.keySet()) {  // czy to jest zadanie dla silnika?
             if (dominantGenomeHashMap.get(genome) > max) {
                 dominantGenome = genome;
                 max = dominantGenomeHashMap.get(genome);
